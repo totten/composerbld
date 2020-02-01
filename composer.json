@@ -1,0 +1,27 @@
+{
+    "name": "totten/composerbld",
+    "authors": [
+        {
+            "name": "Tim Otten",
+            "email": "totten@civicrm.org"
+        }
+    ],
+    "config": {
+        "platform": {
+            "php": "7.0"
+        }
+    },
+    "require": {
+        "civicrm/composer-downloads-plugin": "~2.1",
+        "pimple/pimple": "^3.2"
+    },
+    "extra": {
+        "downloads": {
+            "mustache.js": {
+                "url": "https://github.com/janl/mustache.js/archive/v3.1.0.zip",
+                "path": "extern/mustache",
+                "ignore": ["spec", "test", ".*"]
+            }
+        }
+    }
+}
