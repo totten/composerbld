@@ -9,7 +9,39 @@ use CRM_Composerbld_ExtensionUtil as E;
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_config/ 
  */
 function composerbld_civicrm_config(&$config) {
+  $al = Civi::settings()->get('composerAutoload'); // TODO: Define this setting in core?
+  if (!$al || $al === 'independent') {
+    include_once __DIR__ . '/vendor/autoload.php';
+  }
   _composerbld_civix_civicrm_config($config);
+}
+
+/**
+ * This just a function that uses some of the assets loaded via composer.
+ * It doesn't do anything useful. Just observe that (1) the autolaoder
+ * works and (2) the assets can be located.
+ *
+ * To run it in the CLI:
+ *
+ * $ cv en composerbld
+ * $ cv ev 'composerbld_do_stuff();'
+ */
+function composerbld_do_stuff() {
+  $c = new \Pimple\Container();
+  $c['time'] = function($c) {
+    return date('Y-m-d H:i:s', time());
+  };
+  $c['some-url'] = function($c) {
+    return E::url('extern/mustache/mustache.min.js');
+  };
+  $c['some-path'] = function($c) {
+    return E::path('extern/mustache/mustache.min.js');
+  };
+  print_r([
+    'time' => $c['time'],
+    'some-url' => $c['some-url'],
+    'some-path' => $c['some-path'],
+  ]);
 }
 
 /**
